@@ -49,7 +49,8 @@ namespace WebSite.API.Controllers
                 UserName = model.UserName,
                 DateOfBirth = model.DateOfBirth,
                 MemberIsWomen = model.MemberIsWomen,
-                ProfilePhoto = model.ProfilePhoto
+                ProfilePhoto = model.ProfilePhoto,
+                IsActive =model.IsActive
             });
             await _UserWrite.SaveAsync();
             return StatusCode((int)HttpStatusCode.Created);
