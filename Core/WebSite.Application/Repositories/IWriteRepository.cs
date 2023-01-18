@@ -13,7 +13,7 @@ namespace WebSite.Application.Repositories
         Task<bool> AddAsync(T model);
         Task<bool> AddRangeAsync(List<T> model);
         bool Remove(T model);
-        Task<bool> RemoveById(T model);
+        Task<bool> RemoveByIdAsync(int id);
         bool RemoveRange(List<T> model);
 
         bool UpdateRange(List<T> model);

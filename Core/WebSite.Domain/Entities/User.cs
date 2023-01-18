@@ -36,9 +36,9 @@ namespace WebSite.Domain.Entities
         public string Email { get; set; }
         public bool? MemberIsWomen { get; set; }
         public string? ProfilePhoto { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Address { get; set; }
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public string? Address { get; set; }
         public ICollection<Video> Videos { get; set; }
         public ICollection<Channel> SubscribedChannels { get; set; }
         public ICollection<Channel> AdminChannels { get; set; }

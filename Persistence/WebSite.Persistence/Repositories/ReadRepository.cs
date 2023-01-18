@@ -24,25 +24,34 @@ namespace WebSite.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>(); 
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool tracking = true)
         {
-            return Table;
+            var query =  Table.AsQueryable();
+            if(!tracking) query= query.AsNoTracking();
+            return query;
         }
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression)
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool tracking = true)
         {
-            return Table.Where(expression);
+            var query = Table.AsQueryable();
+            if (!tracking) query = query.AsNoTracking();
+            return query.Where(expression);
         }
          
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool tracking = true)
         {
-            return await Table.FirstOrDefaultAsync(expression);
+            var query = Table.AsQueryable();
+            if (!tracking) query = query.AsNoTracking();
+            return await query.FirstOrDefaultAsync(expression);
         } 
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, bool tracking = true)
         {
-            return await Table.FindAsync(id);
-        }  
+            var query = Table.AsQueryable();
+            if (!tracking) query = query.AsNoTracking();
+            return await query.FirstOrDefaultAsync(d=>d.Id==id);
+        }
+
     }
 
 }

@@ -30,6 +30,7 @@ namespace WebSite.Persistence.Repositories
 
         public async Task<bool> AddRangeAsync(List<T> model)
         {
+
             await Table.AddRangeAsync(model);
             return true;
         }
@@ -46,9 +47,9 @@ namespace WebSite.Persistence.Repositories
             return true;
         }
 
-        public async Task<bool> RemoveById(T model)
+        public async Task<bool> RemoveByIdAsync(int id)
         {
-            await Table.FindAsync(model.Id);
+            T model = await Table.FirstOrDefaultAsync(x => x.Id == id);
             return Remove(model);
         }
         public bool Update(T model)

@@ -1,7 +1,8 @@
 using WebSite.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(o=>o.AddDefaultPolicy(p=>p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+//WithOrigins("http://localhost:4200/").
 builder.Services.AddPersistenceRegistrations();
 
 builder.Services.AddControllers();
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
