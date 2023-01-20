@@ -9,15 +9,10 @@ namespace WebSite.Domain.Entities
 {
     public class Subcription 
     {
-        public Subcription()
-        {
-            Users = new HashSet<User>();
-            Channels = new HashSet<Channel>();
-        }
         public int UserID { get; set; }
         public int ChannelID { get; set; }
-        public ICollection<Channel> Channels { get; set; }
-        public ICollection<User> Users { get; set; }
+        public Channel Channel { get; set; }
+        public User User { get; set; }
 
     }
 }

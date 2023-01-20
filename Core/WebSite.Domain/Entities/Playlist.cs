@@ -12,8 +12,8 @@ namespace WebSite.Domain.Entities
         public string PlaylistName { get; set; }
         public int VideoID { get; set; }
         public int UserID{ get; set; }
-        public string PlaylistDescription { get; set; }
-        public string PlaylistThumbnail { get; set; }
+        public string? PlaylistDescription { get; set; }
+        public string? PlaylistThumbnail { get; set; }
         public User User{ get; set; }
         public ICollection<Video> Videos { get; set; }
     }

@@ -52,13 +52,13 @@ namespace WebSite.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -74,7 +74,8 @@ namespace WebSite.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ChannelDescription")
@@ -84,31 +85,25 @@ namespace WebSite.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePhoto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubcriptionChannelID")
+                    b.Property<int?>("SubscriberCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubcriptionUserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriberCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<int>("VideoCount")
+                    b.Property<int?>("VideoCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -116,8 +111,6 @@ namespace WebSite.Persistence.Migrations
                     b.HasIndex("CategoryID");
 
                     b.HasIndex("UserID");
-
-                    b.HasIndex("SubcriptionChannelID", "SubcriptionUserID");
 
                     b.ToTable("Channels");
                 });
@@ -130,10 +123,10 @@ namespace WebSite.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsApropriate")
@@ -143,7 +136,7 @@ namespace WebSite.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserID")
@@ -169,14 +162,13 @@ namespace WebSite.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("PlaylistDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlaylistName")
@@ -184,10 +176,9 @@ namespace WebSite.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlaylistThumbnail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserID")
@@ -235,15 +226,15 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.Subcription", b =>
                 {
-                    b.Property<int>("ChannelID")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("ChannelID", "UserID");
+                    b.Property<int>("ChannelID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserID");
+                    b.HasKey("UserID", "ChannelID");
+
+                    b.HasIndex("ChannelID");
 
                     b.ToTable("Subcriptions");
                 });
@@ -257,69 +248,52 @@ namespace WebSite.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("MemberIsWomen")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("ProfilePhoto")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubcriptionChannelID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubcriptionUserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TelNumber")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SubcriptionChannelID", "SubcriptionUserID");
 
                     b.ToTable("Users");
                 });
@@ -410,25 +384,26 @@ namespace WebSite.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("ChannelID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DislikeCount")
+                    b.Property<int?>("DislikeCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LikeCount")
+                    b.Property<int?>("LikeCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserID")
@@ -444,7 +419,7 @@ namespace WebSite.Persistence.Migrations
                     b.Property<string>("VideoThumbnail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VideoViewCount")
+                    b.Property<int?>("VideoViewCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -484,10 +459,6 @@ namespace WebSite.Persistence.Migrations
                         .WithMany("AdminChannels")
                         .HasForeignKey("UserID")
                         .IsRequired();
-
-                    b.HasOne("WebSite.Domain.Entities.Subcription", null)
-                        .WithMany("Channels")
-                        .HasForeignKey("SubcriptionChannelID", "SubcriptionUserID");
 
                     b.Navigation("AdminUser");
 
@@ -540,24 +511,21 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.Subcription", b =>
                 {
-                    b.HasOne("WebSite.Domain.Entities.Channel", null)
-                        .WithMany()
+                    b.HasOne("WebSite.Domain.Entities.Channel", "Channel")
+                        .WithMany("SubscribedUsers")
                         .HasForeignKey("ChannelID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebSite.Domain.Entities.User", null)
-                        .WithMany()
+                    b.HasOne("WebSite.Domain.Entities.User", "User")
+                        .WithMany("SubscribedChannels")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("WebSite.Domain.Entities.User", b =>
-                {
-                    b.HasOne("WebSite.Domain.Entities.Subcription", null)
-                        .WithMany("Users")
-                        .HasForeignKey("SubcriptionChannelID", "SubcriptionUserID");
+                    b.Navigation("Channel");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebSite.Domain.Entities.UserDislikedVideo", b =>
@@ -644,19 +612,14 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.Channel", b =>
                 {
+                    b.Navigation("SubscribedUsers");
+
                     b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("WebSite.Domain.Entities.Comment", b =>
                 {
                     b.Navigation("SubComments");
-                });
-
-            modelBuilder.Entity("WebSite.Domain.Entities.Subcription", b =>
-                {
-                    b.Navigation("Channels");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("WebSite.Domain.Entities.User", b =>
@@ -672,6 +635,8 @@ namespace WebSite.Persistence.Migrations
                     b.Navigation("Playlists");
 
                     b.Navigation("SubComments");
+
+                    b.Navigation("SubscribedChannels");
 
                     b.Navigation("Videos");
 

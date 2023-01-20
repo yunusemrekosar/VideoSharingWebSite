@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebSite.Domain.Entities;
+using WebSite.Domain.Entities.Common;
 
 namespace WebSite.Persistence.Context
 {
@@ -13,13 +14,35 @@ namespace WebSite.Persistence.Context
         public WebSiteDbContext(DbContextOptions options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Channel> Channels  { get; set; }
-        public DbSet<Playlist> Playlists  { get; set; }
-        public DbSet<SubComment> SubComments  { get; set; }
-        public DbSet<Subcription >  Subcriptions  { get; set; }
+        public DbSet<Channel> Channels { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<SubComment> SubComments { get; set; }
+        public DbSet<Subcription> Subcriptions { get; set; }
         public DbSet<UserDislikedVideo> UserDislikedVideos { get; set; }
-        public DbSet<UserLikedVideo> UserLikedVideos  { get; set; }
+        public DbSet<UserLikedVideo> UserLikedVideos { get; set; }
         public DbSet<UserWatchedVideo> UserWatchedVideos { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var datas = ChangeTracker.Entries<BaseEntity>();
+
+            foreach (var data in datas)
+            {
+                switch (data.State)
+                {
+                    case EntityState.Modified:
+                        data.Entity.UpdatedDate = DateTime.Now;
+                        break;
+                    case EntityState.Added:
+                        data.Entity.CreatedDate = DateTime.Now;
+                        data.Entity.IsActive = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,11 +94,6 @@ namespace WebSite.Persistence.Context
                 .HasForeignKey(s => s.CommentID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Channel>()
-                .HasMany(u => u.SubscribedUsers)
-                .WithMany(c => c.SubscribedChannels)
-                .UsingEntity<Subcription>();
-
             modelBuilder.Entity<Video>()
                 .HasOne(v => v.User)
                 .WithMany(u => u.Videos)
@@ -100,11 +118,11 @@ namespace WebSite.Persistence.Context
                 .HasForeignKey(udv => udv.UserID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-                modelBuilder.Entity<UserDislikedVideo>()
-                .HasOne(udv => udv.Video)
-                .WithMany(u => u.DislikedVideos)
-                .HasForeignKey(udv => udv.VideoID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<UserDislikedVideo>()
+            .HasOne(udv => udv.Video)
+            .WithMany(u => u.DislikedVideos)
+            .HasForeignKey(udv => udv.VideoID)
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<UserLikedVideo>()
                 .HasOne(udv => udv.Video)
@@ -123,9 +141,23 @@ namespace WebSite.Persistence.Context
                 .WithMany(u => u.SubComments)
                 .HasForeignKey(s => s.UserID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<Subcription>()
+                .HasKey(k => new { k.UserID, k.ChannelID });
+
+            modelBuilder.Entity<Subcription>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.SubscribedChannels)
+                .HasForeignKey(a => a.UserID);
+
+            modelBuilder.Entity<Subcription>()
+                .HasOne(s => s.Channel)
+                .WithMany(u => u.SubscribedUsers)
+                .HasForeignKey(a => a.ChannelID);
+
         }
     }
 
-     
-    
+
+
 }

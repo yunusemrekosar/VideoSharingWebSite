@@ -42,7 +42,7 @@ namespace WebSite.API.Controllers
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = model.Password,
-                TelNumber = model.TelNumber,
+                PhoneNumber = model.PhoneNumber,
                 Address = model.Address,
                 Country = model.Country,
                 City = model.City,
@@ -64,7 +64,7 @@ namespace WebSite.API.Controllers
             user.LastName = model.LastName;
             user.Email = model.Email;
             user.Password = model.Password;
-            user.TelNumber = model.TelNumber;
+            user.PhoneNumber = model.PhoneNumber;
             user.Address = model.Address;
             user.Country = model.Country;
             user.City = model.City;

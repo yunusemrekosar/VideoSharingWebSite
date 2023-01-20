@@ -15,7 +15,7 @@ namespace WebSite.Domain.Entities
         {
             Videos = new HashSet<Video>();
             AdminChannels = new HashSet<Channel>();
-            SubscribedChannels = new HashSet<Channel>();
+            SubscribedChannels = new HashSet<Subcription>();
             DislikedVideos = new HashSet<UserDislikedVideo>();
             LikedVideos = new HashSet<UserLikedVideo>();
             WatchedVideos = new HashSet<UserWatchedVideo>();
@@ -23,24 +23,24 @@ namespace WebSite.Domain.Entities
             Comments = new HashSet<Comment>();
             SubComments = new HashSet<SubComment>();
         }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [MaxLength(12)]
-        public string TelNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
-        [EmailAddress]
-        public string Email { get; set; }
+    
+        public string? Email { get; set; }
         public bool? MemberIsWomen { get; set; }
         public string? ProfilePhoto { get; set; }
         public string? Country { get; set; }
         public string? City { get; set; }
         public string? Address { get; set; }
         public ICollection<Video> Videos { get; set; }
-        public ICollection<Channel> SubscribedChannels { get; set; }
+        public ICollection<Subcription> SubscribedChannels { get; set; }
         public ICollection<Channel> AdminChannels { get; set; }
         public ICollection<UserDislikedVideo>  DislikedVideos { get; set; }
         public ICollection<UserLikedVideo>  LikedVideos { get; set; }
