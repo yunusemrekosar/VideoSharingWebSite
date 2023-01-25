@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
-using WebSite.Domain.Entities.Common;
 
-namespace WebSite.Domain.Entities
+namespace WebSite.Application.ViewModels
 {
-    public class Channel : BaseEntity
+    public class VMChannel
     {
-        public Channel()
-        {
-            Videos = new HashSet<Video>();
-            SubscribedUsers= new HashSet<Subscription>();
-        }
+        public int Id { get; set; }
+
         [MaxLength(30), MinLength(2)]
         public string ChannelName { get; set; }
 
@@ -27,11 +21,5 @@ namespace WebSite.Domain.Entities
         public int? CategoryID { get; set; }
         public int? VideoCount { get; set; }
         public int? SubscriberCount { get; set; }
-        public Category Category { get; set; }
-        public User AdminUser { get; set; }
-        public ICollection<Subscription> SubscribedUsers { get; set; }
-        public ICollection<Video> Videos { get; set; }
-        
-
     }
 }

@@ -7,7 +7,7 @@ using WebSite.Domain.Entities.Common;
 
 namespace WebSite.Domain.Entities
 {
-    public class Subcription 
+    public class Subscription : BaseEntity
     {
         public int UserID { get; set; }
         public int ChannelID { get; set; }

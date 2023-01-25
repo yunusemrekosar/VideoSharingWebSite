@@ -1,3 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
+using WebSite.Application.Validations;
+using WebSite.Infrastructure.Filters;
 using WebSite.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +10,12 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.WithOrigins("http://loca
 
 builder.Services.AddPersistenceRegistrations();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(c => c.Filters.Add<ValidationFilter>())
+    .ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);
+
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 

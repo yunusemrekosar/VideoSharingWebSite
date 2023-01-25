@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebSite.Domain.Entities;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMUserPost:User
+    public class VMUserDislikedVideo
     {
+        public int Id { get; set; }
+        public int UserID { get; set; }
+        public int VideoID { get; set; }
     }
 }

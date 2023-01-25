@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebSite.Persistence.Context;
 
@@ -11,9 +12,11 @@ using WebSite.Persistence.Context;
 namespace WebSite.Persistence.Migrations
 {
     [DbContext(typeof(WebSiteDbContext))]
-    partial class WebSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230125195902_mig2")]
+    partial class mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

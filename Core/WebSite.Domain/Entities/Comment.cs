@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,12 @@ namespace WebSite.Domain.Entities
         {
             SubComments = new HashSet<SubComment>();
         }
+
+        [MaxLength(250)]
         public string TheComment { get; set; }
         public int  UserID{ get; set; }
         public int VideoID { get; set; }
-        public bool IsApropriate { get; set; }
+        public bool? IsApropriate { get; set; }
         public User User { get; set; }
         public Video Video { get; set; }
         public ICollection<SubComment> SubComments { get; set; }

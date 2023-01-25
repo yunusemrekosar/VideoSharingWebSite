@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,11 @@ namespace WebSite.Domain.Entities
             Playlists = new List<Playlist>();
             Comments = new List<Comment>();
         }
+
+        [MaxLength(80), MinLength(5)]
         public string VideoName { get; set; }
+
+        [MaxLength(100), MinLength(5)]
         public string? VideoDescription { get; set; }
         public string? VideoThumbnail { get; set; }
         public int? LikeCount { get; set; }

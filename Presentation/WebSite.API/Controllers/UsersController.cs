@@ -34,30 +34,34 @@ namespace WebSite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VMUserPost model)
+        public async Task<IActionResult> Post(VMUser model)
         {
-            await _UserWrite.AddAsync(new()
+            if (!ModelState.IsValid)
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                Password = model.Password,
-                PhoneNumber = model.PhoneNumber,
-                Address = model.Address,
-                Country = model.Country,
-                City = model.City,
-                UserName = model.UserName,
-                DateOfBirth = model.DateOfBirth,
-                MemberIsWomen = model.MemberIsWomen,
-                ProfilePhoto = model.ProfilePhoto,
-                IsActive =model.IsActive
-            });
-            await _UserWrite.SaveAsync();
-            return StatusCode((int)HttpStatusCode.Created);
+                await _UserWrite.AddAsync(new()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Password = model.Password,
+                    PhoneNumber = model.PhoneNumber,
+                    Address = model.Address,
+                    Country = model.Country,
+                    City = model.City,
+                    UserName = model.UserName,
+                    DateOfBirth = model.DateOfBirth,
+                    MemberIsWomen = model.MemberIsWomen,
+                    ProfilePhoto = model.ProfilePhoto,
+                    IsActive = model.IsActive
+                });
+                await _UserWrite.SaveAsync();
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            return StatusCode((int)HttpStatusCode.BadRequest);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(VMUserPost model)
+        public async Task<IActionResult> Put(VMUser model)
         {
             User user = await _UserRead.GetByIdAsync(model.Id);
             user.FirstName = model.FirstName;

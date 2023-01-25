@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebSite.Domain.Entities;
 using WebSite.Domain.Entities.Common;
 
@@ -17,7 +12,7 @@ namespace WebSite.Persistence.Context
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<SubComment> SubComments { get; set; }
-        public DbSet<Subcription> Subcriptions { get; set; }
+        public DbSet<Subscription> Subcriptions { get; set; }
         public DbSet<UserDislikedVideo> UserDislikedVideos { get; set; }
         public DbSet<UserLikedVideo> UserLikedVideos { get; set; }
         public DbSet<UserWatchedVideo> UserWatchedVideos { get; set; }
@@ -35,6 +30,8 @@ namespace WebSite.Persistence.Context
                         break;
                     case EntityState.Added:
                         data.Entity.CreatedDate = DateTime.Now;
+                        if (data.Entity is Subscription)
+                        { break; }
                         data.Entity.IsActive = false;
                         break;
                     default:
@@ -119,10 +116,10 @@ namespace WebSite.Persistence.Context
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<UserDislikedVideo>()
-            .HasOne(udv => udv.Video)
-            .WithMany(u => u.DislikedVideos)
-            .HasForeignKey(udv => udv.VideoID)
-            .OnDelete(DeleteBehavior.ClientSetNull);
+               .HasOne(udv => udv.Video)
+               .WithMany(u => u.DislikedVideos)
+               .HasForeignKey(udv => udv.VideoID)
+               .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<UserLikedVideo>()
                 .HasOne(udv => udv.Video)
@@ -142,18 +139,22 @@ namespace WebSite.Persistence.Context
                 .HasForeignKey(s => s.UserID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Subcription>()
+            modelBuilder.Entity<Subscription>()
                 .HasKey(k => new { k.UserID, k.ChannelID });
 
-            modelBuilder.Entity<Subcription>()
+            modelBuilder.Entity<Subscription>()
                 .HasOne(s => s.User)
                 .WithMany(u => u.SubscribedChannels)
                 .HasForeignKey(a => a.UserID);
 
-            modelBuilder.Entity<Subcription>()
+            modelBuilder.Entity<Subscription>()
                 .HasOne(s => s.Channel)
                 .WithMany(u => u.SubscribedUsers)
                 .HasForeignKey(a => a.ChannelID);
+
+            modelBuilder.Entity<Subscription>()
+                .Ignore(x => x.Id)
+                .Ignore(a => a.IsActive);
 
         }
     }
