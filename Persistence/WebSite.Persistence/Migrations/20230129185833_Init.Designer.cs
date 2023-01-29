@@ -12,8 +12,8 @@ using WebSite.Persistence.Context;
 namespace WebSite.Persistence.Migrations
 {
     [DbContext(typeof(WebSiteDbContext))]
-    [Migration("20230125185706_init")]
-    partial class init
+    [Migration("20230129185833_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,8 @@ namespace WebSite.Persistence.Migrations
 
                     b.Property<string>("TheComment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -176,11 +177,13 @@ namespace WebSite.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PlaylistDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("PlaylistName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PlaylistThumbnail")
                         .HasColumnType("nvarchar(max)");
@@ -223,7 +226,8 @@ namespace WebSite.Persistence.Migrations
 
                     b.Property<string>("TheComment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -248,17 +252,11 @@ namespace WebSite.Persistence.Migrations
                     b.Property<int>("ChannelID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("UserID", "ChannelID");
 
                     b.HasIndex("ChannelID");
 
-                    b.ToTable("Subcriptions");
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("WebSite.Domain.Entities.User", b =>
@@ -335,33 +333,16 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.UserDislikedVideo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DislikedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.Property<int>("VideoID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("DislikedDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("UserID");
+                    b.HasKey("UserID", "VideoID");
 
                     b.HasIndex("VideoID");
 
@@ -370,33 +351,16 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.UserLikedVideo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LikedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.Property<int>("VideoID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("LikedDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("UserID");
+                    b.HasKey("UserID", "VideoID");
 
                     b.HasIndex("VideoID");
 
@@ -405,21 +369,6 @@ namespace WebSite.Persistence.Migrations
 
             modelBuilder.Entity("WebSite.Domain.Entities.UserWatchedVideo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
@@ -429,9 +378,7 @@ namespace WebSite.Persistence.Migrations
                     b.Property<DateTime>("WatchedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserID");
+                    b.HasKey("UserID", "VideoID");
 
                     b.HasIndex("VideoID");
 
@@ -472,11 +419,13 @@ namespace WebSite.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("VideoDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("VideoName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
 
                     b.Property<string>("VideoThumbnail")
                         .HasColumnType("nvarchar(max)");
@@ -595,11 +544,13 @@ namespace WebSite.Persistence.Migrations
                     b.HasOne("WebSite.Domain.Entities.User", "User")
                         .WithMany("DislikedVideos")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebSite.Domain.Entities.Video", "Video")
-                        .WithMany("DislikedVideos")
+                        .WithMany("Disliker")
                         .HasForeignKey("VideoID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -612,11 +563,13 @@ namespace WebSite.Persistence.Migrations
                     b.HasOne("WebSite.Domain.Entities.User", "User")
                         .WithMany("LikedVideos")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebSite.Domain.Entities.Video", "Video")
-                        .WithMany("LikedVideos")
+                        .WithMany("Liker")
                         .HasForeignKey("VideoID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -629,11 +582,13 @@ namespace WebSite.Persistence.Migrations
                     b.HasOne("WebSite.Domain.Entities.User", "User")
                         .WithMany("WatchedVideos")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebSite.Domain.Entities.Video", "Video")
-                        .WithMany("WatchedVideos")
+                        .WithMany("Watcher")
                         .HasForeignKey("VideoID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -709,11 +664,11 @@ namespace WebSite.Persistence.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("DislikedVideos");
+                    b.Navigation("Disliker");
 
-                    b.Navigation("LikedVideos");
+                    b.Navigation("Liker");
 
-                    b.Navigation("WatchedVideos");
+                    b.Navigation("Watcher");
                 });
 #pragma warning restore 612, 618
         }

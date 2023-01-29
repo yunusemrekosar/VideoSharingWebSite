@@ -36,7 +36,7 @@ namespace WebSite.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VMUser model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _UserWrite.AddAsync(new()
                 {

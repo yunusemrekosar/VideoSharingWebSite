@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebSite.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -93,10 +93,10 @@ namespace WebSite.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PlaylistName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlaylistName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     VideoID = table.Column<int>(type: "int", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    PlaylistDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PlaylistDescription = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     PlaylistThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -113,25 +113,23 @@ namespace WebSite.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subcriptions",
+                name: "Subscriptions",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    ChannelID = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ChannelID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subcriptions", x => new { x.UserID, x.ChannelID });
+                    table.PrimaryKey("PK_Subscriptions", x => new { x.UserID, x.ChannelID });
                     table.ForeignKey(
-                        name: "FK_Subcriptions_Channels_ChannelID",
+                        name: "FK_Subscriptions_Channels_ChannelID",
                         column: x => x.ChannelID,
                         principalTable: "Channels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Subcriptions_Users_UserID",
+                        name: "FK_Subscriptions_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -144,8 +142,8 @@ namespace WebSite.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VideoName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VideoName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    VideoDescription = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     VideoThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LikeCount = table.Column<int>(type: "int", nullable: true),
                     DislikeCount = table.Column<int>(type: "int", nullable: true),
@@ -183,7 +181,7 @@ namespace WebSite.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TheComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TheComment = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     VideoID = table.Column<int>(type: "int", nullable: false),
                     IsApropriate = table.Column<bool>(type: "bit", nullable: true),
@@ -234,84 +232,75 @@ namespace WebSite.Persistence.Migrations
                 name: "UserDislikedVideos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DislikedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    VideoID = table.Column<int>(type: "int", nullable: false)
+                    VideoID = table.Column<int>(type: "int", nullable: false),
+                    DislikedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserDislikedVideos", x => x.Id);
+                    table.PrimaryKey("PK_UserDislikedVideos", x => new { x.UserID, x.VideoID });
                     table.ForeignKey(
                         name: "FK_UserDislikedVideos_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserDislikedVideos_Video_VideoID",
                         column: x => x.VideoID,
                         principalTable: "Video",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserLikedVideos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LikedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    VideoID = table.Column<int>(type: "int", nullable: false)
+                    VideoID = table.Column<int>(type: "int", nullable: false),
+                    LikedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLikedVideos", x => x.Id);
+                    table.PrimaryKey("PK_UserLikedVideos", x => new { x.UserID, x.VideoID });
                     table.ForeignKey(
                         name: "FK_UserLikedVideos_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserLikedVideos_Video_VideoID",
                         column: x => x.VideoID,
                         principalTable: "Video",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserWatchedVideos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    WatchedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    VideoID = table.Column<int>(type: "int", nullable: false)
+                    VideoID = table.Column<int>(type: "int", nullable: false),
+                    WatchedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserWatchedVideos", x => x.Id);
+                    table.PrimaryKey("PK_UserWatchedVideos", x => new { x.UserID, x.VideoID });
                     table.ForeignKey(
                         name: "FK_UserWatchedVideos_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserWatchedVideos_Video_VideoID",
                         column: x => x.VideoID,
                         principalTable: "Video",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,7 +309,7 @@ namespace WebSite.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TheComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TheComment = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     IsApropriate = table.Column<bool>(type: "bit", nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     CommentID = table.Column<int>(type: "int", nullable: false),
@@ -384,14 +373,9 @@ namespace WebSite.Persistence.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subcriptions_ChannelID",
-                table: "Subcriptions",
+                name: "IX_Subscriptions_ChannelID",
+                table: "Subscriptions",
                 column: "ChannelID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserDislikedVideos_UserID",
-                table: "UserDislikedVideos",
-                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserDislikedVideos_VideoID",
@@ -399,19 +383,9 @@ namespace WebSite.Persistence.Migrations
                 column: "VideoID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLikedVideos_UserID",
-                table: "UserLikedVideos",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserLikedVideos_VideoID",
                 table: "UserLikedVideos",
                 column: "VideoID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserWatchedVideos_UserID",
-                table: "UserWatchedVideos",
-                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserWatchedVideos_VideoID",
@@ -444,7 +418,7 @@ namespace WebSite.Persistence.Migrations
                 name: "SubComments");
 
             migrationBuilder.DropTable(
-                name: "Subcriptions");
+                name: "Subscriptions");
 
             migrationBuilder.DropTable(
                 name: "UserDislikedVideos");

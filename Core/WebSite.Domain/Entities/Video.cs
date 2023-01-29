@@ -33,8 +33,8 @@ namespace WebSite.Domain.Entities
         public Channel Channel { get; set; }
         public ICollection<Playlist> Playlists { get; set; }
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<UserDislikedVideo> DislikedVideos { get; set; }
-        public ICollection<UserLikedVideo> LikedVideos { get; set; }
-        public ICollection<UserWatchedVideo> WatchedVideos { get; set; }
+        public ICollection<UserDislikedVideo> Disliker { get; set; }
+        public ICollection<UserLikedVideo> Liker { get; set; }
+        public ICollection<UserWatchedVideo> Watcher { get; set; }
     }
 }

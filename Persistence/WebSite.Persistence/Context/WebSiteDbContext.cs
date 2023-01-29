@@ -12,7 +12,7 @@ namespace WebSite.Persistence.Context
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<SubComment> SubComments { get; set; }
-        public DbSet<Subscription> Subcriptions { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<UserDislikedVideo> UserDislikedVideos { get; set; }
         public DbSet<UserLikedVideo> UserLikedVideos { get; set; }
         public DbSet<UserWatchedVideo> UserWatchedVideos { get; set; }
@@ -43,6 +43,31 @@ namespace WebSite.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Subscription>()
+               .Ignore(x => x.Id)
+               .Ignore(a => a.IsActive)
+               .Ignore(a => a.UpdatedDate)
+               .Ignore(a => a.CreatedDate); 
+
+              modelBuilder.Entity<UserLikedVideo>()
+               .Ignore(x => x.Id)
+               .Ignore(a => a.IsActive)
+               .Ignore(a => a.UpdatedDate)
+               .Ignore(a => a.CreatedDate);
+
+            modelBuilder.Entity<UserWatchedVideo>()
+               .Ignore(x => x.Id)
+               .Ignore(a => a.IsActive)
+               .Ignore(a => a.UpdatedDate)
+               .Ignore(a => a.CreatedDate);
+
+            modelBuilder.Entity<UserDislikedVideo>()
+                .Ignore(x => x.Id)
+                .Ignore(a => a.IsActive)
+                .Ignore(a => a.UpdatedDate)
+                .Ignore(a => a.CreatedDate);
+
+
             modelBuilder.Entity<Video>()
                 .HasOne(v => v.Category)
                 .WithMany(c => c.Videos)
@@ -97,42 +122,6 @@ namespace WebSite.Persistence.Context
                 .HasForeignKey(v => v.UserID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<UserDislikedVideo>()
-                .HasOne(udv => udv.User)
-                .WithMany(u => u.DislikedVideos)
-                .HasForeignKey(udv => udv.UserID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<UserLikedVideo>()
-                .HasOne(udv => udv.User)
-                .WithMany(u => u.LikedVideos)
-                .HasForeignKey(udv => udv.UserID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<UserWatchedVideo>()
-                .HasOne(udv => udv.User)
-                .WithMany(u => u.WatchedVideos)
-                .HasForeignKey(udv => udv.UserID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<UserDislikedVideo>()
-               .HasOne(udv => udv.Video)
-               .WithMany(u => u.DislikedVideos)
-               .HasForeignKey(udv => udv.VideoID)
-               .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<UserLikedVideo>()
-                .HasOne(udv => udv.Video)
-                .WithMany(u => u.LikedVideos)
-                .HasForeignKey(udv => udv.VideoID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<UserWatchedVideo>()
-                .HasOne(udv => udv.Video)
-                .WithMany(u => u.WatchedVideos)
-                .HasForeignKey(udv => udv.VideoID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
             modelBuilder.Entity<SubComment>()
                 .HasOne(s => s.User)
                 .WithMany(u => u.SubComments)
@@ -152,9 +141,44 @@ namespace WebSite.Persistence.Context
                 .WithMany(u => u.SubscribedUsers)
                 .HasForeignKey(a => a.ChannelID);
 
-            modelBuilder.Entity<Subscription>()
-                .Ignore(x => x.Id)
-                .Ignore(a => a.IsActive);
+            modelBuilder.Entity<UserLikedVideo>()
+                .HasKey(k => new { k.UserID, k.VideoID });
+
+            modelBuilder.Entity<UserLikedVideo>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.LikedVideos)
+                .HasForeignKey(a => a.UserID);
+
+            modelBuilder.Entity<UserLikedVideo>()
+                .HasOne(s => s.Video)
+                .WithMany(u => u.Liker)
+                .HasForeignKey(a => a.VideoID);
+
+            modelBuilder.Entity<UserDislikedVideo>()
+                .HasKey(k => new { k.UserID, k.VideoID });
+
+            modelBuilder.Entity<UserDislikedVideo>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.DislikedVideos)
+                .HasForeignKey(a => a.UserID);
+
+            modelBuilder.Entity<UserDislikedVideo>()
+                .HasOne(s => s.Video)
+                .WithMany(u => u.Disliker)
+                .HasForeignKey(a => a.VideoID);
+
+            modelBuilder.Entity<UserWatchedVideo>()
+               .HasKey(k => new { k.UserID, k.VideoID });
+
+            modelBuilder.Entity<UserWatchedVideo>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.WatchedVideos)
+                .HasForeignKey(a => a.UserID);
+
+            modelBuilder.Entity<UserWatchedVideo>()
+                .HasOne(s => s.Video)
+                .WithMany(u => u.Watcher)
+                .HasForeignKey(a => a.VideoID);
 
         }
     }
