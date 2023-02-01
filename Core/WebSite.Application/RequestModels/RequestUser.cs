@@ -3,7 +3,7 @@ using WebSite.Application.Featurs.Commands.CreateUser;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMUser : IRequest<CreateUserCommandResponse>
+    public class RequestUser : IRequest<CreateUserCommandResponse>
     {
         public int Id { get; set; }
         public string UserName { get; set; }

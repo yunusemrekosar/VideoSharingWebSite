@@ -38,7 +38,7 @@ namespace WebSite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VMUser request)
+        public async Task<IActionResult> Post(RequestUser request)
         {
             CreateUserCommandResponse response = await _MediatR.Send(request);
             return Ok(response);
@@ -64,7 +64,7 @@ namespace WebSite.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(VMUser model)
+        public async Task<IActionResult> Put(RequestUser model)
         {
             User user = await _UserRead.GetByIdAsync(model.Id);
             user.FirstName = model.FirstName;

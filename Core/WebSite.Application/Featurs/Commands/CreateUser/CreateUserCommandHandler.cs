@@ -4,7 +4,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Featurs.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<VMUser, CreateUserCommandResponse>
+    public class CreateUserCommandHandler : IRequestHandler<RequestUser, CreateUserCommandResponse>
     {
         readonly IUserWrite _UserWrite;
 
@@ -14,7 +14,7 @@ namespace WebSite.Application.Featurs.Commands.CreateUser
             _UserWrite = userWrite;
         }
 
-        public async Task<CreateUserCommandResponse> Handle(VMUser request, CancellationToken cancellationToken)
+        public async Task<CreateUserCommandResponse> Handle(RequestUser request, CancellationToken cancellationToken)
         {
 
             await _UserWrite.AddAsync(new()

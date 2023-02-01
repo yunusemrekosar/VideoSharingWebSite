@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMChannel
+    public class RequestChannel
     {
         public int Id { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMComment
+    public class RequestComment
     {
         public int Id { get; set; }
         public string TheComment { get; set; }

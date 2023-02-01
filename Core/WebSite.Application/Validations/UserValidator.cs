@@ -5,7 +5,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class UserValidator : AbstractValidator<VMUser>
+    public class UserValidator : AbstractValidator<RequestUser>
     {
         public UserValidator()
         {

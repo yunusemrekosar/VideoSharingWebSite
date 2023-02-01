@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMCategory
+    public class RequestCategory
     {
         public int Id { get; set; }
 
