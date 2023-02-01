@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using WebSite.Application.Featurs.Commands.CreateUser;
 using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
@@ -54,7 +55,7 @@ namespace WebSite.Application.Validations
                 .NotNull()
                 .WithMessage("Birth Day Can Not Empty")
                 .Length(11)
-                .WithMessage("Phone NumBer Should Be 11 Characters");
+                .WithMessage("Phone Number Should Be 11 Characters");
 
             RuleFor(u => u.Email)
                 .NotEmpty()

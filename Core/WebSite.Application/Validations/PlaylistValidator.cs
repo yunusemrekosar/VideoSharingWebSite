@@ -3,7 +3,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class PlaylistValidator : AbstractValidator<VMPlaylist>
+    public class PlaylistValidator : AbstractValidator<RequestPlaylist>
     {
         public PlaylistValidator()
         {

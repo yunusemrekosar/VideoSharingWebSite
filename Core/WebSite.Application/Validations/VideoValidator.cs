@@ -3,7 +3,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class VideoValidator : AbstractValidator<VMVideo>
+    public class VideoValidator : AbstractValidator<RequestVideo>
     {
         public VideoValidator()
         {

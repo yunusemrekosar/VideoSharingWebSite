@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMVideo
+    public class RequestVideo
     {
         public int Id { get; set; }
         public string VideoName { get; set; }

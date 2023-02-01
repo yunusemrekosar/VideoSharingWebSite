@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMPlaylist
+    public class RequestSubcomment
     {
         public int Id { get; set; }
-        public string PlaylistName { get; set; }
-        public int VideoID { get; set; }
+        public string TheComment { get; set; }
+        public bool? IsApropriate { get; set; }
         public int UserID { get; set; }
-
-        public string? PlaylistDescription { get; set; }
-        public string? PlaylistThumbnail { get; set; }
+        public int CommentID { get; set; }
     }
 }

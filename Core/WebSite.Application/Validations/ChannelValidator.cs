@@ -3,7 +3,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class ChannelValidator : AbstractValidator<VMChannel>
+    public class ChannelValidator : AbstractValidator<RequestChannel>
     {
         public ChannelValidator()
         {

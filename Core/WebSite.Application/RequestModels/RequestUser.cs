@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using MediatR;
+using WebSite.Application.Featurs.Commands.CreateUser;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMUser
+    public class VMUser : IRequest<CreateUserCommandResponse>
     {
         public int Id { get; set; }
         public string UserName { get; set; }

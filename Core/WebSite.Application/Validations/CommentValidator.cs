@@ -9,7 +9,7 @@ using WebSite.Domain.Entities;
 
 namespace WebSite.Application.Validations
 {
-    public class CommentValidator : AbstractValidator<VMComment>
+    public class CommentValidator : AbstractValidator<RequestComment>
     {
         public CommentValidator()
         {

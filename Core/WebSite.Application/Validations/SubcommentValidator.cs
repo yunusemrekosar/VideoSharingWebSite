@@ -3,7 +3,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class SubcommentValidator : AbstractValidator<VMSubcomment>
+    public class SubcommentValidator : AbstractValidator<RequestSubcomment>
     {
         public SubcommentValidator()
         {

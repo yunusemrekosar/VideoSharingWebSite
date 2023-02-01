@@ -3,7 +3,7 @@ using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class CategoryValidator : AbstractValidator<VMCategory>
+    public class CategoryValidator : AbstractValidator<RequestCategory>
     { 
         public CategoryValidator()
         {

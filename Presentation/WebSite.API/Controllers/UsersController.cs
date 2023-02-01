@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using WebSite.Application.Featurs.Commands.CreateUser;
 using WebSite.Application.ITablesRepositories.IUserRepository;
 using WebSite.Application.ViewModels;
 using WebSite.Domain.Entities;
@@ -13,10 +15,12 @@ namespace WebSite.API.Controllers
     {
         private readonly IUserRead _UserRead;
         private readonly IUserWrite _UserWrite;
-        public usersController(IUserRead UserRead, IUserWrite UserWrite)
+        readonly IMediator _MediatR;
+        public usersController(IUserRead UserRead, IUserWrite UserWrite, IMediator mediatR)
         {
             _UserRead = UserRead;
             _UserWrite = UserWrite;
+            _MediatR = mediatR;
         }
 
         [HttpGet]
@@ -34,30 +38,29 @@ namespace WebSite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VMUser model)
+        public async Task<IActionResult> Post(VMUser request)
         {
-            if (ModelState.IsValid)
-            {
-                await _UserWrite.AddAsync(new()
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    Password = model.Password,
-                    PhoneNumber = model.PhoneNumber,
-                    Address = model.Address,
-                    Country = model.Country,
-                    City = model.City,
-                    UserName = model.UserName,
-                    DateOfBirth = model.DateOfBirth,
-                    MemberIsWomen = model.MemberIsWomen,
-                    ProfilePhoto = model.ProfilePhoto,
-                    IsActive = model.IsActive
-                });
-                await _UserWrite.SaveAsync();
-                return StatusCode((int)HttpStatusCode.Created);
-            }
-            return StatusCode((int)HttpStatusCode.BadRequest);
+            CreateUserCommandResponse response = await _MediatR.Send(request);
+            return Ok(response);
+
+            //await _UserWrite.AddAsync(new()
+            //{
+            //    FirstName = model.FirstName,
+            //    LastName = model.LastName,
+            //    Email = model.Email,
+            //    Password = model.Password,
+            //    PhoneNumber = model.PhoneNumber,
+            //    Address = model.Address,
+            //    Country = model.Country,
+            //    City = model.City,
+            //    UserName = model.UserName,
+            //    DateOfBirth = model.DateOfBirth,
+            //    MemberIsWomen = model.MemberIsWomen,
+            //    ProfilePhoto = model.ProfilePhoto,
+            //    IsActive = model.IsActive
+            //});
+            //await _UserWrite.SaveAsync();
+            //return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]

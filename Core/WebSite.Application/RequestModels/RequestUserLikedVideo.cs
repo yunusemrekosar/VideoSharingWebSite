@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebSite.Application.ViewModels
 {
-    public class VMUserWatchedVideo
+    public class RequestUserLikedVideo
     {
         public int Id { get; set; }
         public int UserID { get; set; }
