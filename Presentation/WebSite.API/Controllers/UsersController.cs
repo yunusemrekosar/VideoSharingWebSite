@@ -5,7 +5,7 @@ using WebSite.Application.Featurs.Commands.CreateUser;
 using WebSite.Application.Featurs.Commands.UpdateUser;
 using WebSite.Application.ITablesRepositories.IUserRepository;
 using WebSite.Domain.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Linq;
 
 
 namespace WebSite.API.Controllers
@@ -28,22 +28,26 @@ namespace WebSite.API.Controllers
         public async Task<IActionResult> GetAll() 
         {
             return Ok(_UserRead.GetAll(false));
-
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetbyId(int id)
         {
             return Ok(await _UserRead.GetByIdAsync(id, false));
-
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(CreateUserCommandRequest request)
         {
-            
             CreateUserCommandResponse response = await _MediatR.Send(request);
-            return Ok(response);
+            if (response.Error is not null)
+            {
+                return new BadRequestObjectResult(response.Error);
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
         [HttpPut]

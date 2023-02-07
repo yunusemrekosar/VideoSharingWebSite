@@ -12,15 +12,6 @@ namespace WebSite.Infrastructure.Filters
 {
     public class ValidationFilter : IAsyncActionFilter
     {
-        readonly IUserRead _userRead;
-        readonly IUserWrite _userWrite;
-
-        public ValidationFilter(IUserWrite userWrite, IUserRead userRead)
-        {
-            _userWrite = userWrite;
-            _userRead = userRead;
-        }
-
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             

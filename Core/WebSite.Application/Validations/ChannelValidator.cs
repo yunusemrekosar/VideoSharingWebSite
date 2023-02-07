@@ -13,6 +13,7 @@ namespace WebSite.Application.Validations
 
             RuleFor(c=>c.ChannelName)
                 .NotEmpty()
+                .WithMessage("Category Name Can Not Empty")
                 .NotNull()
                 .WithMessage("Category Name Can Not Empty")
                 .MaximumLength(30)

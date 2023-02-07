@@ -9,6 +9,7 @@ namespace WebSite.Application.Validations
         {
             RuleFor(c => c.TheComment)
                .NotEmpty()
+               .WithMessage("Comment Can Not Empty")
                .NotNull()
                .WithMessage("Comment Can Not Empty")
                .MaximumLength(250)

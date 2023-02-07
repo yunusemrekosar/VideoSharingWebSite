@@ -9,6 +9,7 @@ namespace WebSite.Application.Validations
         {
             RuleFor(c => c.CategoryName)
                 .NotEmpty()
+                .WithMessage("Category Name Can Not Empty")
                 .NotNull()
                 .WithMessage("Category Name Can Not Empty")
                 .MaximumLength(50)
@@ -18,6 +19,7 @@ namespace WebSite.Application.Validations
 
             RuleFor(c => c.CategoryDescription)
                 .NotEmpty()
+                .WithMessage("Category Name Can Not Empty")
                 .NotNull()
                 .WithMessage("Category Name Can Not Empty")
                 .MaximumLength(70)

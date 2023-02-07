@@ -9,6 +9,7 @@ namespace WebSite.Application.Validations
         {
             RuleFor(p=>p.PlaylistName)
                 .NotEmpty()
+                .WithMessage("Playlist Name Can Not Empty")
                 .NotNull()
                 .WithMessage("Playlist Name Can Not Empty")
                 .MaximumLength(50)
@@ -18,6 +19,7 @@ namespace WebSite.Application.Validations
 
             RuleFor(p=>p.PlaylistDescription)
                 .NotEmpty()
+                .WithMessage("Playlist Description Can Not Empty")
                 .NotNull()
                 .WithMessage("Playlist Description Can Not Empty")
                 .MaximumLength(30)
