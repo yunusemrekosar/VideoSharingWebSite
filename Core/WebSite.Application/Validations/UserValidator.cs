@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using WebSite.Application.Featurs.Commands.CreateUser;
-using WebSite.Application.ViewModels;
 
 namespace WebSite.Application.Validations
 {
-    public class UserValidator : AbstractValidator<RequestUser>
+    public class UserValidator : AbstractValidator<CreateUserCommandRequest>
     {
         public UserValidator()
         {

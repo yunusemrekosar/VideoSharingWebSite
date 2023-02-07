@@ -1,9 +1,12 @@
-﻿using MediatR;
-using WebSite.Application.Featurs.Commands.CreateUser;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebSite.Application.ViewModels
+namespace WebSite.Application.RequestModels
 {
-    public class RequestUser : IRequest<CreateUserCommandResponse>
+    public class RequestUser
     {
         public int Id { get; set; }
         public string UserName { get; set; }

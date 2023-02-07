@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using WebSite.Application.Featurs.Commands.CreateUser;
+using WebSite.Application.Featurs.Commands.UpdateUser;
 using WebSite.Application.ITablesRepositories.IUserRepository;
-using WebSite.Application.ViewModels;
 using WebSite.Domain.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace WebSite.API.Controllers
@@ -24,7 +25,7 @@ namespace WebSite.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() //ı dont know ı need this when done check
+        public async Task<IActionResult> GetAll() 
         {
             return Ok(_UserRead.GetAll(false));
 
@@ -38,49 +39,18 @@ namespace WebSite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(RequestUser request)
+        public async Task<IActionResult> Post(CreateUserCommandRequest request)
         {
+            
             CreateUserCommandResponse response = await _MediatR.Send(request);
             return Ok(response);
-
-            //await _UserWrite.AddAsync(new()
-            //{
-            //    FirstName = model.FirstName,
-            //    LastName = model.LastName,
-            //    Email = model.Email,
-            //    Password = model.Password,
-            //    PhoneNumber = model.PhoneNumber,
-            //    Address = model.Address,
-            //    Country = model.Country,
-            //    City = model.City,
-            //    UserName = model.UserName,
-            //    DateOfBirth = model.DateOfBirth,
-            //    MemberIsWomen = model.MemberIsWomen,
-            //    ProfilePhoto = model.ProfilePhoto,
-            //    IsActive = model.IsActive
-            //});
-            //await _UserWrite.SaveAsync();
-            //return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(RequestUser model)
+        public async Task<IActionResult> Put(UpdateUserCommandRequest request)
         {
-            User user = await _UserRead.GetByIdAsync(model.Id);
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Email = model.Email;
-            user.Password = model.Password;
-            user.PhoneNumber = model.PhoneNumber;
-            user.Address = model.Address;
-            user.Country = model.Country;
-            user.City = model.City;
-            user.UserName = model.UserName;
-            user.DateOfBirth = model.DateOfBirth;
-            user.MemberIsWomen = model.MemberIsWomen;
-            user.ProfilePhoto = model.ProfilePhoto;
-            await _UserWrite.SaveAsync();
-            return StatusCode((int)HttpStatusCode.OK);
+            UpdateUserCommandResponse response = await _MediatR.Send(request); // await _MediatR.Send(request);
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]

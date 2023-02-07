@@ -2,6 +2,6 @@
 {
     public class CreateUserCommandResponse
     {
-
+        public object MyProperty { get; set; }
     }
 }
