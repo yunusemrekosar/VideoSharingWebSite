@@ -6,7 +6,7 @@ using WebSite.Application.Featurs.Commands.UpdateUser;
 using WebSite.Application.ITablesRepositories.IUserRepository;
 using WebSite.Domain.Entities;
 using System.Linq;
-
+using WebSite.Application.Featurs.Commands.LoginUser;
 
 namespace WebSite.API.Controllers
 {
@@ -65,5 +65,18 @@ namespace WebSite.API.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login(LoginUserCommandRequest request)
+        {
+            LoginUserCommandResponse response = await _MediatR.Send(request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return new BadRequestObjectResult(response.Message);
+            }
+        }
     }
 }

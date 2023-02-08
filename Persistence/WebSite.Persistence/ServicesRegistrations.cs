@@ -26,6 +26,8 @@ namespace WebSite.Persistence
     {
         public static void AddPersistenceRegistrations(this IServiceCollection services)
         {
+
+
             services.AddScoped<IUserRead, UserRead>();
             services.AddScoped<IUserWrite, UserWrite>();
 
