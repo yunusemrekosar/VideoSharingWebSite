@@ -7,6 +7,7 @@ using WebSite.Application;
 using WebSite.Application.Validations;
 using WebSite.Infrastructure;
 using WebSite.Infrastructure.Filters;
+using WebSite.Infrastructure.Services.Strorage.Local;
 using WebSite.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.WithOrigins("http://loca
 builder.Services.AddPersistenceRegistrations();
 builder.Services.AddAplicationServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddStorage<LocalStrorage>();
 
 builder.Services.AddControllers(c => c.Filters.Add<ValidationFilter>())
     .ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);

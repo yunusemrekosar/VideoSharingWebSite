@@ -7,6 +7,7 @@ using WebSite.Application.ITablesRepositories.IUserRepository;
 using WebSite.Domain.Entities;
 using System.Linq;
 using WebSite.Application.Featurs.Commands.LoginUser;
+using WebSite.Application.Abstractions.StorageAbs;
 
 namespace WebSite.API.Controllers
 {
@@ -14,14 +15,23 @@ namespace WebSite.API.Controllers
     [ApiController]
     public class usersController : ControllerBase
     {
-        private readonly IUserRead _UserRead;
-        private readonly IUserWrite _UserWrite;
+        readonly IStorageService _storageService;
+        readonly IUserRead _UserRead;
+        readonly IUserWrite _UserWrite;
         readonly IMediator _MediatR;
-        public usersController(IUserRead UserRead, IUserWrite UserWrite, IMediator mediatR)
+        public usersController(IUserRead UserRead, IUserWrite UserWrite, IMediator mediatR, IStorageService storageService)
         {
             _UserRead = UserRead;
             _UserWrite = UserWrite;
             _MediatR = mediatR;
+            _storageService = storageService;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Upload()
+        {
+            var datas = await _storageService.UploadAsync("test/files", Request.Form.Files);
+            return Ok();
         }
 
         [HttpGet]
