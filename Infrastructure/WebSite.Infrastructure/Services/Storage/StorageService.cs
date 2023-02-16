@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSite.Application.Abstractions.StorageAbs;
 
-namespace WebSite.Infrastructure.Services.Strorage
+namespace WebSite.Infrastructure.Services.Storage
 {
     public class StorageService : IStorageService
     {

@@ -8,9 +8,11 @@ using WebSite.Domain.Entities;
 using System.Linq;
 using WebSite.Application.Featurs.Commands.LoginUser;
 using WebSite.Application.Abstractions.StorageAbs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebSite.API.Controllers
 {
+    [Authorize(AuthenticationSchemes = "user")]
     [Route("api/[controller]")]
     [ApiController]
     public class usersController : ControllerBase
@@ -27,13 +29,6 @@ namespace WebSite.API.Controllers
             _storageService = storageService;
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
-        {
-            var datas = await _storageService.UploadAsync("test/files", Request.Form.Files);
-            return Ok();
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAll() 
         {
@@ -44,20 +39,6 @@ namespace WebSite.API.Controllers
         public async Task<IActionResult> GetbyId(int id)
         {
             return Ok(await _UserRead.GetByIdAsync(id, false));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post(CreateUserCommandRequest request)
-        {
-            CreateUserCommandResponse response = await _MediatR.Send(request);
-            if (response.Error is not null)
-            {
-                return new BadRequestObjectResult(response.Error);
-            }
-            else
-            {
-                return Ok(response);
-            }
         }
 
         [HttpPut]
@@ -75,18 +56,5 @@ namespace WebSite.API.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Login(LoginUserCommandRequest request)
-        {
-            LoginUserCommandResponse response = await _MediatR.Send(request);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return new BadRequestObjectResult(response.Message);
-            }
-        }
     }
 }

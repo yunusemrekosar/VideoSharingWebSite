@@ -1,13 +1,14 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebSite.Application;
 using WebSite.Application.Validations;
 using WebSite.Infrastructure;
 using WebSite.Infrastructure.Filters;
-using WebSite.Infrastructure.Services.Strorage.Local;
+using WebSite.Infrastructure.Services.Storage.Azure;
+using WebSite.Infrastructure.Services.Storage.Local;
 using WebSite.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.WithOrigins("http://loca
 builder.Services.AddPersistenceRegistrations();
 builder.Services.AddAplicationServices();
 builder.Services.AddInfrastructureServices();
-builder.Services.AddStorage<LocalStrorage>();
+builder.Services.AddStorage<LocalStorage>();
 
 builder.Services.AddControllers(c => c.Filters.Add<ValidationFilter>())
     .ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);
@@ -29,8 +30,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication("user")
-    .AddJwtBearer(o =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("user", o =>
     {
         o.TokenValidationParameters = new()
         {
@@ -58,6 +59,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

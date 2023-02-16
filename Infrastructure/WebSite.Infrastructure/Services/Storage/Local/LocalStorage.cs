@@ -8,15 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSite.Application.Abstractions.StorageAbs.LocalStorageAbs;
 
-namespace WebSite.Infrastructure.Services.Strorage.Local
+namespace WebSite.Infrastructure.Services.Storage.Local
 {
 
 
-    public class LocalStrorage : ILocalStorage
+    public class LocalStorage : ILocalStorage
     {
         readonly IWebHostEnvironment _webHostEnvironment;
 
-        public LocalStrorage(IWebHostEnvironment webHostEnvironment)
+        public LocalStorage(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
         }

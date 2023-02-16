@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSite.Application.Abstractions.StorageAbs;
 using WebSite.Application.Abstractions.TokenAbs;
-using WebSite.Infrastructure.Services.Strorage;
+using WebSite.Infrastructure.Services.Storage;
 using WebSite.Infrastructure.Services.TokenService;
 
 namespace WebSite.Infrastructure
